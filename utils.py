@@ -21,11 +21,10 @@ def entrar_id_produto():
     return id
 
 def pesquisar_produto(id, produtos):
-    while True:
-        for produto in produtos:
-            if (produto.id == id):
-                return produto
-        return None
+    for produto in produtos:
+        if produto.id == id:
+            return produto
+    return None
 
 def entrar_produto(produtos):
     while True:

@@ -3,12 +3,13 @@ from tabulate import tabulate
 from utils import *
 from menus import *
 from modelos import *
+from crud import *
 
 def atender_cliente(cliente, produtos):
     if not menu_iniciar_atendimento():
-        print("Cliente cancelou o atendimento")
-        return 0, 0
+        return cliente, [], 0
     num_item, itens = 0, []
+    total_compra = 0
     while True:
         produto = entrar_produto(produtos)
         quantidade = entrar_quantidade(produto)
@@ -18,11 +19,13 @@ def atender_cliente(cliente, produtos):
         total_item = quantidade * produto.preco
         itens.append([num_item, produto.nome, quantidade, produto.preco, total_item])
         produto.quantidade -= quantidade
+        atualizar_produto(produto)
         if menu_finalizar_atendimento():
             break
+    for item in itens:
+        total_compra += item[2]
     cliente += 1
-    total_compra = fechar_atendimento(cliente, itens)
-    return cliente, total_compra
+    return cliente, itens, total_compra
 
 def fechar_atendimento(cliente, itens):
     TOTAL_ITEM = 4

@@ -1,4 +1,4 @@
-from arquivo import *
+from crud import *
 from utils import *
 from tabulate import tabulate
 from constantes import *
@@ -15,9 +15,9 @@ def fechar_caixa(clientes):
     print(tabulate(clientes, headers=["Cliente", "Total"]))
     print("\nTotal de vendas:", total_vendas, "\n")
 
-def exibir_produtos_sem_estoque(produtos):
+def exibir_produtos_sem_estoque():
     print("Produtos sem estoque:")
+    produtos = consultar_produtos_sem_estoque()
     for produto in produtos:
-        if produto.quantidade <= 0:
-            print(produto.nome)
+        print(produto.nome)
     print()
