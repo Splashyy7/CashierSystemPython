@@ -2,63 +2,52 @@ from modelos import Produto
 from conexao_sql import conectar, desconectar
 
 def listar_produtos():
+    session = None
     produtos = []
-    conn = None
     try:
-        conn = conectar()
-        cursor = conn.cursor()
-        cursor.execute("SELECT id, nome, quantidade, preco FROM produto")
-        produtos = [Produto(*row) for row in cursor.fetchall()]
+        session = conectar()
+        produtos = session.query(Produto).all()
     except Exception as ex:
         print(ex)
     finally:
-        desconectar(conn)
+        desconectar(session)
     return produtos
 
 def atualizar_produto(produto):
-    conn = None
+    session = None
     try:
-        conn = conectar()
-        cursor = conn.cursor()
-        cursor.execute(
-            "UPDATE produto SET nome=?, quantidade=?, preco=? WHERE id=?",
-            (produto.nome, produto.quantidade, produto.preco, produto.id)
-        )
-        conn.commit()
+        session = conectar()
+        db_produto = session.query(Produto).filter_by(id=produto.id).first()
+        if db_produto:
+            db_produto.nome = produto.nome
+            db_produto.quantidade = produto.quantidade
+            db_produto.preco = produto.preco
+            session.commit()
     except Exception as ex:
         print(ex)
     finally:
-        desconectar(conn)
+        desconectar(session)
 
 def buscar_produto_por_id(id):
-    conn = None
+    session = None
     produto = None
     try:
-        conn = conectar()
-        cursor = conn.cursor()
-        cursor.execute("SELECT id, nome, quantidade, preco FROM produto WHERE id=?", (id,))
-        row = cursor.fetchone()
-        if row:
-            produto = Produto(*row)
+        session = conectar()
+        produto = session.query(Produto).filter_by(id=id).first()
     except Exception as ex:
         print(ex)
     finally:
-        desconectar(conn)
+        desconectar(session)
     return produto
 
 def consultar_produtos_sem_estoque():
-    comando = "select * from produto where quantidade <= 0;"
+    session = None
     produtos = []
     try:
-        conn = conectar()
-        cursor = conn.cursor()
-        cursor.execute(comando)
-        registros = cursor.fetchall()
-        for registro in registros:
-            id, nome, quantidade, preco = int(registro[0]), registro[1], int(registro[2]), float(registro[3])
-            produtos.append(Produto(id, nome, quantidade, preco))
+        session = conectar()
+        produtos = session.query(Produto).filter(Produto.quantidade <= 0).all()
     except Exception as ex:
         print(ex)
     finally:
-        desconectar(conn)
+        desconectar(session)
     return produtos

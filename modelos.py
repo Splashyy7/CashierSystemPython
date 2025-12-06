@@ -1,11 +1,15 @@
-from dataclasses import dataclass
+from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, String, Float
 
-@dataclass
-class Produto:
-    id: int
-    nome: str
-    quantidade: int
-    preco: float
+Base = declarative_base()
+
+class Produto(Base):
+    __tablename__ = 'produto'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nome = Column(String, nullable=False)
+    quantidade = Column(Integer, nullable=False)
+    preco = Column(Float, nullable=False)
 
     def retornar_csv(self) -> str:
         return f"{self.id},{self.nome},{self.quantidade},{self.preco}\n"
