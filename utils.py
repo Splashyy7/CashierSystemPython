@@ -13,7 +13,7 @@ def entrar_inteiro(msg):
 
 def entrar_id_produto():
     while True:
-        id = entrar_inteiro("Entre o id do produto: ")
+        id = entrar_inteiro("Insira o id do produto: ")
         if id > 0:
             break
         else:
@@ -23,7 +23,7 @@ def entrar_id_produto():
 def pesquisar_produto(id, produtos):
     while True:
         for produto in produtos:
-            if (produto[ID_DO_PRODUTO] == id):
+            if (produto["id"] == id):
                 return produto
         return None
 
@@ -36,8 +36,8 @@ def entrar_produto(produtos):
         else:
             print("Erro: produto não encontrado")
 
-def verificar_estoque(produro, quantidade):
-    if (produro[QTD] >= quantidade):
+def verificar_estoque(produto, quantidade):
+    if (produto["quantidade"] >= quantidade):
         return True
     else:
         return False

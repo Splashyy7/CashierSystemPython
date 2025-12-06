@@ -11,11 +11,11 @@ def ler_produtos():
         with open(ARQ, mode="r", encoding="UTF-8") as arquivo:
             for linha in arquivo:
                 campos = linha.strip().split(",")
-                id_prod = int(campos[ID_DO_PRODUTO])
+                id = int(campos[ID_DO_PRODUTO])
                 nome = campos[NOME]
                 quantidade = int(campos[QTD])
                 preco = float(campos[PRECO])
-                produtos.append([id_prod, nome, quantidade, preco])
+                produtos.append({"id": id, "nome": nome, "quantidade": quantidade, "preco": preco})
     except FileNotFoundError:
         print(f"Erro: arquivo {ARQUIVO} não encontrado")
     except (ValueError, IndexError) as ex:
@@ -26,6 +26,6 @@ def gravar_produtos(produtos):
     try:
         with open(ARQ, mode="w", encoding="UTF-8") as arquivo:
             for produto in produtos:
-                arquivo.write(f"{produto[ID_DO_PRODUTO]},{produto[NOME]},{produto[QTD]},{produto[PRECO]}\n")
+                arquivo.write(f"{produto["id"]},{produto["nome"]},{produto["quantidade"]},{produto["preco"]}\n")
     except Exception as ex:
-        print(ex)
+        print(f"Erro ao gravar produtos: {ex}")

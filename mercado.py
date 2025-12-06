@@ -1,6 +1,6 @@
 from arquivo import *
 from atendimento import *
-from fechamento import *
+from encerramento import *
 from menus import *
 
 abrir_caixa = menu_abrir_caixa()
