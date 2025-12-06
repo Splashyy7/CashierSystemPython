@@ -2,6 +2,7 @@ from constantes import *
 from tabulate import tabulate
 from utils import *
 from menus import *
+from modelos import *
 
 def atender_cliente(cliente, produtos):
     if not menu_iniciar_atendimento():
@@ -14,9 +15,9 @@ def atender_cliente(cliente, produtos):
         if quantidade == 0:
             continue
         num_item += 1
-        total_item = quantidade * produto["preco"]
-        itens.append([num_item, produto["nome"], quantidade, produto["preco"], total_item])
-        produto["quantidade"] -= quantidade
+        total_item = quantidade * produto.preco
+        itens.append([num_item, produto.nome, quantidade, produto.preco, total_item])
+        produto.quantidade -= quantidade
         if menu_finalizar_atendimento():
             break
     cliente += 1

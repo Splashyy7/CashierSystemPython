@@ -23,7 +23,7 @@ def entrar_id_produto():
 def pesquisar_produto(id, produtos):
     while True:
         for produto in produtos:
-            if (produto["id"] == id):
+            if (produto.id == id):
                 return produto
         return None
 
@@ -37,7 +37,7 @@ def entrar_produto(produtos):
             print("Erro: produto não encontrado")
 
 def verificar_estoque(produto, quantidade):
-    if (produto["quantidade"] >= quantidade):
+    if (produto.quantidade >= quantidade):
         return True
     else:
         return False

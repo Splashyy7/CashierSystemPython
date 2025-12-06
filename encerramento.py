@@ -18,6 +18,6 @@ def fechar_caixa(clientes):
 def exibir_produtos_sem_estoque(produtos):
     print("Produtos sem estoque:")
     for produto in produtos:
-        if produto["quantidade"] <= 0:
-            print(produto["nome"])
+        if produto.quantidade <= 0:
+            print(produto.nome)
     print()

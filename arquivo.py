@@ -1,5 +1,6 @@
 import os.path
 from constantes import *
+from modelos import *
 
 ARQUIVO = "produtos.csv"
 DIR = os.path.dirname(os.path.abspath(__file__))
@@ -15,7 +16,7 @@ def ler_produtos():
                 nome = campos[NOME]
                 quantidade = int(campos[QTD])
                 preco = float(campos[PRECO])
-                produtos.append({"id": id, "nome": nome, "quantidade": quantidade, "preco": preco})
+                produtos.append(Produto(id, nome, quantidade, preco))
     except FileNotFoundError:
         print(f"Erro: arquivo {ARQUIVO} não encontrado")
     except (ValueError, IndexError) as ex:
@@ -26,6 +27,6 @@ def gravar_produtos(produtos):
     try:
         with open(ARQ, mode="w", encoding="UTF-8") as arquivo:
             for produto in produtos:
-                arquivo.write(f"{produto["id"]},{produto["nome"]},{produto["quantidade"]},{produto["preco"]}\n")
+                arquivo.write(produto.retornar_csv())
     except Exception as ex:
         print(f"Erro ao gravar produtos: {ex}")
