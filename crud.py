@@ -47,3 +47,7 @@ def cadastrar_cliente_json(nome_cliente):
     clientes.append({"nome": nome_cliente})
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(clientes, f, ensure_ascii=False, indent=4)
+
+def buscar_produto_por_nome(nome):
+    with get_session() as session:
+        return session.query(Produto).filter_by(nome=nome).first()

@@ -1,9 +1,10 @@
 from constantes import *
-from tabulate import tabulate
 from utils import *
 from menus import *
 from modelos import *
 from crud import *
+import pandas as pd
+from tabulate import tabulate
 
 def baixar_estoque(produto, quantidade):
     produto.quantidade -= quantidade
@@ -34,7 +35,6 @@ def atender_cliente(produtos):
         num_item += 1
         total_item = quantidade * produto.preco
         itens.append([num_item, produto.nome, quantidade, produto.preco, total_item])
-        baixar_estoque(produto, quantidade)
         if menu_finalizar_atendimento():
             break
     total_compra = calcular_total_compra(itens)
@@ -44,8 +44,18 @@ def fechar_atendimento(cliente, itens):
     id_cliente = f"\nCliente {cliente}"
     print(id_cliente)
     print("Data:", obter_data(), "\n")
-    print(tabulate(itens, headers=['Item', 'Produto', 'Quant.', "Preço", "Total"]))
-    print("\nItens:", len(itens))
-    total_compra = calcular_total_compra(itens)
-    print("Total:", total_compra, "\n")
-    return total_compra
+    agrupado = gerar_nota_fiscal_agrupada(itens, return_df=True) 
+    for _, row in agrupado.iterrows():
+        produto_obj = buscar_produto_por_nome(row['Produto'])
+        if produto_obj:
+            baixar_estoque(produto_obj, int(row['Quant.']))
+    return agrupado['Total'].sum()
+
+def gerar_nota_fiscal_agrupada(itens, return_df=False):
+    df = pd.DataFrame(itens, columns=['Item', 'Produto', 'Quant.', 'Preço', 'Total'])
+    agrupado = df.groupby(['Produto', 'Preço'], as_index=False).agg({'Quant.': 'sum', 'Total': 'sum'})
+    print(tabulate(agrupado, headers='keys', showindex=False))
+    print("\nItens:", len(agrupado))
+    print("Total:", agrupado['Total'].sum(), "\n")
+    if return_df:
+        return agrupado

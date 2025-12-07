@@ -1,8 +1,6 @@
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import os
-import pandas as pd
-
 
 BANCO = "banco.db"
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
