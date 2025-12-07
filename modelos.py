@@ -16,3 +16,12 @@ class Produto(Base):
 
     def __str__(self):
         return f"{self.nome} (ID: {self.id}) - {self.quantidade} unidades, R$ {self.preco:.2f}"
+
+class Cliente(Base):
+    __tablename__ = 'cliente'
+
+    id_cliente = Column(Integer, primary_key=True, autoincrement=True)
+    nome = Column(String, nullable=False)
+
+    def __str__(self):
+        return f"{self.nome} (ID: {self.id_cliente})"

@@ -9,10 +9,14 @@ def fechar_caixa(clientes):
     print("\nFechamento do caixa")
     print("Data:", obter_data(), "\n")
     total_vendas = 0
+    tabela = []
     for cliente in clientes:
-        cliente[ID_CLIENTE] = "Cliente " + str(cliente[ID_CLIENTE])
+        id_cliente = cliente[ID_CLIENTE]
+        cliente_obj = buscar_cliente_por_id(id_cliente)
+        nome_cliente = cliente_obj.nome if cliente_obj else f"Cliente {id_cliente}"
         total_vendas += cliente[TOTAL_COMPRAS]
-    print(tabulate(clientes, headers=["Cliente", "Total"]))
+        tabela.append([nome_cliente, cliente[TOTAL_COMPRAS]])
+    print(tabulate(tabela, headers=["Cliente", "Total"]))
     print("\nTotal de vendas:", total_vendas, "\n")
 
 def exibir_produtos_sem_estoque():

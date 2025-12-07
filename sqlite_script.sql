@@ -10,11 +10,6 @@ create table produto(
 	preco real not null
 );
 
-INSERT INTO produto VALUES (null, 'Produto 1', 1, 10);
-INSERT INTO produto VALUES (null, 'Produto 2', 2, 20);
-INSERT INTO produto VALUES (null, 'Produto 3', 3, 30);
-INSERT INTO produto VALUES (null, 'Produto 4', 4, 40);
-INSERT INTO produto VALUES (null, 'Produto 5', 5, 50);
 
 drop table if exists cliente;
 
