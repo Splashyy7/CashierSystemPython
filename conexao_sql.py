@@ -1,20 +1,21 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import os.path
+import os
+import pandas as pd
 
 BANCO = "banco.db"
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-BANCO = os.path.join(BASE_DIR, BANCO)
+db_path = os.path.join(BASE_DIR, BANCO)
+DATABASE_URL = f"sqlite:///{db_path}"
 
-def conectar():
-    try:
-        engine = create_engine("sqlite:///" + BANCO)
-        session = sessionmaker(bind=engine)()
-    except Exception as ex:
-        print(ex)
-        exit()
-    return session
+engine = create_engine(DATABASE_URL, echo=False, future=True)
+SessionLocal = sessionmaker(bind=engine)
 
-def desconectar(session):
-    if (session):
-        session.close()
+def get_session():
+    return SessionLocal()
+
+def carregar_clientes_json():
+    json_path = os.path.join(BASE_DIR, "clientes.json")
+    if os.path.exists(json_path):
+        df = pd.read_json(json_path)
+        df.to_sql('cliente', con=engine, if_exists='replace', index=False)

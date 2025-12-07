@@ -1,7 +1,10 @@
+from conexao_sql import carregar_clientes_json
 from crud import *
 from atendimento import *
 from encerramento import *
 from menus import *
+
+carregar_clientes_json()
 
 abrir_caixa = menu_abrir_caixa()
 if not abrir_caixa:
