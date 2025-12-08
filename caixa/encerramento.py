@@ -17,7 +17,7 @@ def fechar_caixa(clientes):
         total_vendas += cliente[TOTAL_COMPRAS]
         tabela.append([nome_cliente, cliente[TOTAL_COMPRAS]])
     print(tabulate(tabela, headers=["Cliente", "Total"]))
-    print("\nTotal de vendas:", total_vendas, "\n")
+    print("\nTotal de vendas: R$ ", total_vendas, "\n")
 
 def exibir_produtos_sem_estoque():
     print("Produtos sem estoque:")

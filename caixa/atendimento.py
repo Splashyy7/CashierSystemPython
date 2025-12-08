@@ -6,9 +6,9 @@ from comum.crud import *
 import pandas as pd
 from tabulate import tabulate
 
-def baixar_estoque(produto, quantidade):
-    produto.quantidade -= quantidade
-    atualizar_produto(produto)
+def baixar_estoque(produto, quantidade_baixada):
+    produto.quantidade -= quantidade_baixada
+    atualizar_produto(produto, produto.nome, produto.quantidade, produto.preco)
 
 def calcular_total_compra(itens):
     TOTAL_ITEM = 4

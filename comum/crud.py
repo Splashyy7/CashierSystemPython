@@ -8,13 +8,13 @@ def listar_produtos():
     with get_session() as session:
         return session.query(Produto).all()
 
-def atualizar_produto(produto):
+def atualizar_produto(produto, nome, quantidade, preco):
     with get_session() as session:
         db_produto = session.query(Produto).filter_by(id_produto=produto.id_produto).first()
         if db_produto:
-            db_produto.nome = produto.nome
-            db_produto.quantidade = produto.quantidade
-            db_produto.preco = produto.preco
+            db_produto.nome = nome
+            db_produto.quantidade = quantidade
+            db_produto.preco = preco
             session.commit()
 
 def buscar_produto_por_id(id_produto):
@@ -80,6 +80,7 @@ def cadastrar_produto(nome, quantidade, preco):
         novo_produto = Produto(nome=nome, quantidade=quantidade, preco=preco)
         session.add(novo_produto)
         session.commit()
+        session.refresh(novo_produto)
         return novo_produto
 
 def deletar_produto(produto):
