@@ -1,8 +1,11 @@
 import pandas as pd
 from bs4 import BeautifulSoup
 import requests
+import os
 
-def scrape_produtos_html(html, output_csv="produtos.csv"):
+def scrape_produtos_html(html, output_csv=None):
+    if output_csv is None:
+        output_csv = os.path.join(os.path.dirname(__file__), "produtos.csv")
     soup = BeautifulSoup(html, 'html.parser')
     produtos = []
     for item in soup.select('.product-item'):
@@ -24,8 +27,13 @@ def scrape_produtos_html(html, output_csv="produtos.csv"):
     df.to_csv(output_csv, index=False)
     return df
 
-def scrape_produtos_url(url, output_csv="produtos.csv"):
+def scrape_produtos_url(url, output_csv=None):
     response = requests.get(url)
     response.encoding = 'utf-8'
     html = response.text
     return scrape_produtos_html(html, output_csv)
+
+def baixar_produtos_padrao():
+    url = "https://pedrovncs.github.io/lindosprecos/produtos.html#"
+    output_csv = os.path.join(os.path.dirname(__file__), "produtos.csv")
+    return scrape_produtos_url(url, output_csv)

@@ -1,12 +1,12 @@
-from scraping_produtos import scrape_produtos_url
-from crud import *
-from atendimento import *
-from encerramento import *
-from menus import *
-from importar_produtos import importar_produtos_sustentavel
-from importar_clientes import importar_clientes
+from dados.scraping_produtos import baixar_produtos_padrao
+from comum.crud import *
+from caixa.atendimento import *
+from caixa.encerramento import *
+from caixa.menus import *
+from admin.importar_produtos import importar_produtos_sustentavel
+from admin.importar_clientes import importar_clientes
 
-scrape_produtos_url("https://pedrovncs.github.io/lindosprecos/produtos.html#")
+baixar_produtos_padrao()
 importar_produtos_sustentavel()
 importar_clientes()
 

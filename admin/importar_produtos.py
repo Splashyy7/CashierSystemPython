@@ -1,12 +1,16 @@
+import os
 import pandas as pd
-from modelos import Produto
-from conexao_sql import get_session
+from comum.modelos import Produto
+from comum.conexao_sql import get_session, BASE_DIR
+
+DADOS_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', 'dados'))
+CSV_PRODUTOS = os.path.join(DADOS_DIR, "produtos.csv")
 
 def banco_produtos_vazio():
     with get_session() as session:
         return session.query(Produto).count() == 0
 
-def atualizar_nome_preco_produtos(csv_path="produtos.csv"):
+def atualizar_nome_preco_produtos(csv_path=CSV_PRODUTOS):
     df = pd.read_csv(csv_path)
     with get_session() as session:
         for _, row in df.iterrows():
@@ -16,7 +20,7 @@ def atualizar_nome_preco_produtos(csv_path="produtos.csv"):
                 produto.preco = float(row['preco'])
         session.commit()
 
-def importar_produtos_csv(csv_path="produtos.csv"):
+def importar_produtos_csv(csv_path=CSV_PRODUTOS):
     df = pd.read_csv(csv_path)
     with get_session() as session:
         for _, row in df.iterrows():
@@ -28,7 +32,7 @@ def importar_produtos_csv(csv_path="produtos.csv"):
             session.add(produto)
         session.commit()
 
-def importar_produtos_sustentavel(csv_path="produtos.csv"):
+def importar_produtos_sustentavel(csv_path=CSV_PRODUTOS):
     if banco_produtos_vazio():
         importar_produtos_csv(csv_path)
     else:

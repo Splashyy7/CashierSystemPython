@@ -1,5 +1,5 @@
-from utils import *
-from constantes import *
+from comum.utils import *
+from comum.constantes import *
 
 def menu_abrir_caixa():
     while True:

@@ -1,4 +1,4 @@
-from constantes import *
+from comum.constantes import *
 from datetime import datetime
 
 
@@ -22,7 +22,7 @@ def entrar_id_produto():
 
 def pesquisar_produto(id, produtos):
     for produto in produtos:
-        if produto.id == id:
+        if produto.id_produto == id:
             return produto
     return None
 
@@ -57,3 +57,20 @@ def entrar_quantidade(produto):
 
 def obter_data():
     return datetime.now().strftime('%d/%m/%Y %H:%M')
+
+def entrar_float(msg):
+    while True:
+        try:
+            valor = float(input(msg))
+            break
+        except:
+            print("Erro: valor inválido")
+    return valor
+
+def entrar_texto(msg):
+    while True:
+        texto = input(msg).strip()
+        if texto:
+            return texto
+        else:
+            print("Erro: texto não pode ser vazio")

@@ -1,7 +1,7 @@
-from crud import *
-from utils import *
+from comum.crud import *
+from comum.utils import *
 from tabulate import tabulate
-from constantes import *
+from comum.constantes import *
 
 def fechar_caixa(clientes):
     ID_CLIENTE = 0

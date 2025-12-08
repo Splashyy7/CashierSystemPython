@@ -1,8 +1,8 @@
-from constantes import *
-from utils import *
-from menus import *
-from modelos import *
-from crud import *
+from comum.constantes import *
+from comum.utils import *
+from caixa.menus import *
+from comum.modelos import *
+from comum.crud import *
 import pandas as pd
 from tabulate import tabulate
 
@@ -17,13 +17,13 @@ def calcular_total_compra(itens):
 def atender_cliente(produtos):
     id_cliente = int(input("Digite o id do cliente: "))
     cliente_obj = buscar_cliente_por_id(id_cliente)
-    if not cliente_obj:
+    if cliente_obj:
+        print(f"Cliente já cadastrado: {cliente_obj.nome} (ID: {id_cliente})")
+    else:
         print("Cliente não cadastrado. Cadastrando novo cliente...")
         id_cliente, nome_cliente = cadastrar_cliente()
-        cadastrar_cliente_json(nome_cliente)
+        cadastrar_cliente_json(id_cliente, nome_cliente)
         print(f"Cliente cadastrado: {nome_cliente} (ID: {id_cliente})")
-    else:
-        id_cliente = cliente_obj.id_cliente
     if not menu_iniciar_atendimento():
         return id_cliente, [], 0
     num_item, itens = 0, []
@@ -44,11 +44,13 @@ def fechar_atendimento(cliente, itens):
     id_cliente = f"\nCliente {cliente}"
     print(id_cliente)
     print("Data:", obter_data(), "\n")
-    agrupado = gerar_nota_fiscal_agrupada(itens, return_df=True) 
+    agrupado = gerar_nota_fiscal_agrupada(itens, return_df=True)
     for _, row in agrupado.iterrows():
         produto_obj = buscar_produto_por_nome(row['Produto'])
         if produto_obj:
             baixar_estoque(produto_obj, int(row['Quant.']))
+    id_compra = registrar_compra(cliente)
+    registrar_itens_compra(id_compra, agrupado)
     return agrupado['Total'].sum()
 
 def gerar_nota_fiscal_agrupada(itens, return_df=False):
