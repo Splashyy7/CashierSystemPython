@@ -53,9 +53,12 @@ def remover_produto():
     if not produto:
         print("Produto não encontrado.")
         return
-    deletar_fornecimentos_produto(id_produto)
-    crud_deletar_produto(produto)
-    print("Produto removido com sucesso.")
+    
+    if crud_deletar_produto(produto):
+        deletar_fornecimentos_produto(id_produto)
+        print("Produto removido com sucesso.")
+    else:
+        print("Não é possível remover este produto porque já existem vendas registradas com ele.")
 
 def associar_fornecedores(id_produto):
     fornecedores = listar_fornecedores()

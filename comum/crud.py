@@ -85,10 +85,19 @@ def cadastrar_produto(nome, quantidade, preco):
 
 def deletar_produto(produto):
     with get_session() as session:
+        existe_item = session.query(Item).filter(Item.id_produto == produto.id_produto).first()
+
+        if existe_item:
+            return False
+
         db_produto = session.query(Produto).filter_by(id_produto=produto.id_produto).first()
+
         if db_produto:
             session.delete(db_produto)
             session.commit()
+            return True
+        else:
+            return False
 
 def listar_fornecedores():
     with get_session() as session:
