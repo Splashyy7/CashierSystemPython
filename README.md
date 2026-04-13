@@ -133,4 +133,5 @@ python sig.py
 ## 👤 Autor
 
 **João Pedro**
+
 Projeto desenvolvido como evolução contínua de estudos em Python, modelagem de dados e boas práticas de organização de código.
