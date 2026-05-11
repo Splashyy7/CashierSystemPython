@@ -130,6 +130,13 @@ python sig.py
 
 ---
 
+## ✅ Integração contínua
+
+O projeto possui um workflow de GitHub Actions em `.github/workflows/ci.yml`.
+A cada `push` ou `pull request`, a CI instala as dependências do `requirements.txt` e executa `python -m compileall` nos módulos principais para validar a compilação dos arquivos Python.
+
+---
+
 ## 👤 Autor
 
 **João Pedro**
